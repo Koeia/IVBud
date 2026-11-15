@@ -2,6 +2,11 @@
   text-align: center;
 }
 
+.Form {
+  justify-self: center;
+  align-content: space-around;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
