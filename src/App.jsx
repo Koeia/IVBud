@@ -44,7 +44,7 @@ function TimeAddition() {
           />
         </label>
         <button className="submit" type="submit">
-          Add Time
+          Calculate Time
         </button>
         <p className="result">result: {result}</p>
       </form>
