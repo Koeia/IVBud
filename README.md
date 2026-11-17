@@ -1,4 +1,13 @@
-I made this entirely because I will have a hard time calculating the time of IV BUDs when it is in hours, especially past 1400.
+I made this entirely because I will have a hard time calculating the 24h time of IV BUDs past 1400. This was made to combat this.
+
+### purpose:
+* Convert BUD to 24h time and simplify day tracking
+
+### input:
+* Whole numbers between 1-23 minutes carry from current time
+
+### results:
+* Relative to time on click, so click on compound start
 
 ```Javascript
   function addTime() {
@@ -6,8 +15,8 @@ I made this entirely because I will have a hard time calculating the time of IV 
     const now = new Date();
     const mins = String(now.getMinutes()).padStart(2, "0");
     let newTime = Number(time) + now.getHours();
-
-	// if output is > 24 subtract 24 to give time that will be on the next day
+    
+	// if output is >= 24 subtract 24 to give time that will be on the next day
     if (newTime >= 24) {
       newTime -= 24;
       setResult(`${newTime}:${mins} next day`);
@@ -18,16 +27,17 @@ I made this entirely because I will have a hard time calculating the time of IV 
   }
 ```
 
-```html
+```jsx 
       <form className="form" onSubmit={handleSubmit}>
         <label className="input">
           Enter BUD time(hours):
           <input
             type="number"
+            /* min max keeps input within expected range, required makes input a requirement */
             min="1"
             required
             max="23"
-            <!-- Sets the input to the "time" variable --->
+            /* Sets the input to the "time" variable */
             value={time}
             onChange={handleChange}
           />
@@ -35,31 +45,31 @@ I made this entirely because I will have a hard time calculating the time of IV 
         <button className="submit" type="submit">
           Calculate Time
         </button>
-        <!-- Calls the result of addTime function from useState --->
+		 {/* shows the result of addTime function from useState */}
         <p className="result">result: {result}</p>
       </form>
 ```
 
-this takes input from user as a number, max 23 hours and adds it to 24h formatted "current time"
+this takes input from user as a number, max 23 hours and adds it to 24h formatted "current time" 
 
 ```javascript
-const [time, setTime] = useState("");
-const [result, setResult] = useState("");
+  const [time, setTime] = useState("");
+  const [result, setResult] = useState("");
 ```
-
 these store the input hours and the output result
 
 ```javascript
-// handle form submission
-function handleSubmit(e) {
-  e.preventDefault();
-  addTime();
-}
+  // handle form submission
+  // preventDefault prevents page reload and state clearing
+  function handleSubmit(e) {
+    e.preventDefault();
+    addTime();
+  }
 
-// handle input change
-function handleChange(e) {
-  setTime(e.target.value);
-}
+  // handle input change. updates on each keystroke
+  function handleChange(e) {
+    setTime(e.target.value);
+  }
 ```
 
 `handleSubmit(e)` calls the `addTime()` function for the input time
