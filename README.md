@@ -1,4 +1,4 @@
-I made this entirely because I will have a hard time calculating the 24h time of IV BUDs when it is in hours, especially past 1400. This was made to combat this.
+I made this entirely because I will have a hard time calculating the time of IV BUDs when it is in hours, especially past 1400.
 
 ```Javascript
   function addTime() {
@@ -27,7 +27,7 @@ I made this entirely because I will have a hard time calculating the 24h time of
             min="1"
             required
             max="23"
-            // Sets the input to the "time" variable
+            <!-- Sets the input to the "time" variable --->
             value={time}
             onChange={handleChange}
           />
@@ -35,7 +35,7 @@ I made this entirely because I will have a hard time calculating the 24h time of
         <button className="submit" type="submit">
           Calculate Time
         </button>
-        // Calls the result of addTime function from useState
+        <!-- Calls the result of addTime function from useState --->
         <p className="result">result: {result}</p>
       </form>
 ```
