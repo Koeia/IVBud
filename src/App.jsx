@@ -1,22 +1,26 @@
 import "./index.css";
 import { useState, useEffect } from "react";
 
+// keep clock updated on page
+function useClock() {
+  const [currentTime, setCurrentTime] = useState(new Date());
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 1000);
+    return () => clearInterval(timer);
+  }, []);
+  return currentTime;
+}
+
 function TimeAddition() {
   const [hours, setHours] = useState("");
   const [result, setResult] = useState("");
 
-  // keep clock updated on page
-  function Clock() {
-    const [currentTime, setCurrentTime] = useState(new Date());
+  // Show the current time on page
+  const pageTime = useClock();
 
-    useEffect(() => {
-      const timer = setInterval(() => {
-        setCurrentTime(new Date());
-      }, 1000);
-      return () => clearInterval(timer);
-    }, []);
-    return currentTime;
-  }
   // add user input time to current time
   function addTime() {
     const now = new Date();
@@ -25,13 +29,11 @@ function TimeAddition() {
 
     if (newHours >= 24) {
       newHours -= 24; // if newHours is >= 24, subtract 24 to get time on next day
-      setResult(`${newHours}:${mins} next day`);
+      setResult(`${String(newHours).padStart(2, "0")}:${mins} next day`);
     } else {
-      setResult(`${newHours}:${mins} today`); // if newHours is < 24, show time on same day
+      setResult(`${String(newHours).padStart(2, "0")}:${mins} today`); // if newHours is < 24, show time on same day
     }
   }
-  // Show the current time on page
-  const pageTime = Clock();
 
   // handle form submission
   function handleSubmit(e) {
@@ -68,7 +70,7 @@ function TimeAddition() {
         <button className="submit" type="submit">
           Calculate Time
         </button>
-        <p className="result">result: {String(result).padStart(2, "0")}</p>
+        <p className="result">result: {result}</p>
       </form>
     </div>
   );

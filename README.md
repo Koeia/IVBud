@@ -6,7 +6,7 @@ I made this entirely because I will have a hard time calculating the 24h time of
 
 ### input:
 
-- Whole numbers between 1-23 minutes carry from current time
+- Whole numbers between 1-23. minutes carry from current time
 
 ### results:
 
@@ -21,19 +21,35 @@ function TimeAddition() {
 Stores the inital state and input hours from the user. sets result to the calculated time.
 
 ```javascript
-// handle form submission
+// prevent site reload on form submission and calls addTime()
 function handleSubmit(e) {
   e.preventDefault();
   addTime();
 }
 
-// handle input change
+// update hours state on input change
 function handleChange(e) {
   setHours(e.target.value);
 }
 ```
 
-handles the input change event from the user and updates the hours state on form submission.
+```javascript
+// keep clock updated on page
+function useClock() {
+  const [currentTime, setCurrentTime] = useState(new Date());
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 1000);
+    return () => clearInterval(timer);
+  }, []);
+  return currentTime;
+}
+const pageTime = useClock();
+```
+
+returns the current time. refreshes every second.
 
 ```javascript
 // add user input time to current time
@@ -44,9 +60,9 @@ function addTime() {
 
   if (newHours >= 24) {
     newHours -= 24; // if newHours is >= 24, subtract 24 to get time on next day
-    setResult(`${newHours}:${mins} next day`);
+    setResult(`${String(newHours).padStart(2, "0")}:${mins} next day`);
   } else {
-    setResult(`${newHours}:${mins} today`); // if newHours is < 24, show time on same day
+    setResult(`${String(newHours).padStart(2, "0")}:${mins} today`); // if newHours is < 24, show time on same day
   }
 }
 ```
@@ -54,7 +70,7 @@ function addTime() {
 main function of the app takes input from the user and adds it to the current time. sets the result to the calculated time.
 
 ```jsx
-// Show the current time on page
+
 
 
 return (
@@ -82,7 +98,7 @@ return (
         Calculate Time
       </button>
       {/*shows the result of the calculation */}
-      <p className="result">result: {String(result).padStart(2, "0")}</p>
+      <p className="result">result: {result}</p>
   </form>
 </div>
 );
